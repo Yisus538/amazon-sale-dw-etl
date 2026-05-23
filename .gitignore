@@ -1,0 +1,36 @@
+# Variables de entorno — NUNCA subir al repo
+.env
+.env.local
+
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Datos raw y procesados — son pesados, no van al repo
+data/01_raw/*
+data/02_interim/*
+data/03_processed/*
+# Mantener los marcadores de carpeta vacía
+!data/01_raw/.gitkeep
+!data/02_interim/.gitkeep
+!data/03_processed/.gitkeep
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
