@@ -33,10 +33,14 @@ mi_proyecto_etl/
 
 ## 🚀 Cómo ejecutar el ETL
 
-### 1. Instalar dependencias
+### 1. Crear entorno virtual e instalar dependencias
+
+> **Nota:** si la ruta del proyecto contiene espacios (ej: `BD II/`), crear el venv fuera del proyecto:
 
 ```bash
-cd mi_proyecto_etl
+# Con Python 3.12 (recomendado — 3.14 no tiene wheels para psycopg2)
+python3.12 -m venv ~/.venvs/amazon_etl
+source ~/.venvs/amazon_etl/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -56,13 +60,17 @@ DB_PASSWORD=tu_password
 
 Copiar `Amazon_Sale_Report.csv` en `data/01_raw/`.
 
-### 4. Ejecutar los notebooks en orden
+### 4. Ejecutar el ETL
 
+**Opción A — Script Python directo:**
 ```bash
-cd notebooks
-jupyter lab
+~/.venvs/amazon_etl/bin/python run_etl.py
 ```
 
+**Opción B — Notebooks en orden:**
+```bash
+~/.venvs/amazon_etl/bin/jupyter lab
+```
 Correr en este orden:
 1. `01_extract.ipynb`   → Extrae y guarda en raw/
 2. `02_transform.ipynb` → Construye el esquema estrella
@@ -96,7 +104,7 @@ dimCanal ───────────┘
 
 - **Fuente:** Amazon Sale Report (Kaggle)
 - **Registros:** ~128.975 órdenes
-- **Período:** Abril 2022
+- **Período:** Abril–Junio 2022
 - **Moneda:** INR (Rupia India)
 
 ---
@@ -105,9 +113,9 @@ dimCanal ───────────┘
 
 | Nombre | Email |
 |---|---|
-| | |
-| | |
-| | |
-| | |
+| Martinez Jesus Manuel | jmartinez450@alumnos.iua.edu.ar |
+| Bulatovich Juan Cruz | jbulatovich468@alumnos.iua.edu.ar |
+| Correa Sofia Agostina | scorrea201@alumnos.iua.edu.ar |
+| Bossio Francisco | fbossio156@alumnos.iua.edu.ar |
 
 **Materia:** Base de Datos II | **Año:** 2026
