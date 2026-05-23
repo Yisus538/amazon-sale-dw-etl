@@ -34,7 +34,7 @@ def crear_engine(config: dict):
     usuario  = os.getenv("DB_USER", "postgres")
     password = os.getenv("DB_PASSWORD", "")
 
-    url = f"postgresql://{usuario}:{password}@{host}:{port}/{nombre}"
+    url = f"postgresql+psycopg2://{usuario}:{password}@{host}:{port}/{nombre}"
     engine = create_engine(url, echo=False)
 
     # Verificar conexión
@@ -52,6 +52,7 @@ def cargar_tabla(
     df: pd.DataFrame,
     nombre_tabla: str,
     engine,
+    schema: str = "amazon_dw",
     modo: str = "replace",
 ) -> None:
     """
@@ -61,21 +62,31 @@ def cargar_tabla(
         df: DataFrame a cargar
         nombre_tabla: nombre de la tabla destino en el DW
         engine: SQLAlchemy engine
+        schema: schema de PostgreSQL donde están las tablas
         modo: 'replace' para carga inicial | 'append' para incremental
     """
-    df.to_sql(nombre_tabla, engine, if_exists=modo, index=False)
-    print(f"[LOAD] ✅ Tabla '{nombre_tabla}' cargada: {len(df):,} filas (modo: {modo})")
+    df.to_sql(
+        nombre_tabla,
+        engine,
+        schema=schema,
+        if_exists=modo,
+        index=False,
+        method="multi",
+        chunksize=1000,
+    )
+    print(f"[LOAD] ✅ Tabla '{schema}.{nombre_tabla}' cargada: {len(df):,} filas (modo: {modo})")
 
 
 def verificar_carga(engine, config: dict) -> None:
     """Hace un COUNT(*) de cada tabla para verificar que la carga fue correcta."""
     print("\n[LOAD] Verificando conteo de filas:")
+    schema = config["database"].get("schema", "amazon_dw")
     tablas = config["database"]["tablas"].values()
 
     with engine.connect() as con:
         for tabla in tablas:
             try:
-                resultado = con.execute(text(f'SELECT COUNT(*) FROM "{tabla}"'))
+                resultado = con.execute(text(f'SELECT COUNT(*) FROM {schema}."{tabla}"'))
                 count = resultado.fetchone()[0]
                 print(f"  → {tabla}: {count:,} filas")
             except Exception as e:
@@ -103,6 +114,7 @@ def ejecutar_carga(
 
     config = cargar_config(path_config)
     engine = crear_engine(config)
+    schema = config["database"].get("schema", "amazon_dw")
 
     # Orden de carga: primero dimensiones, luego hechos
     orden_carga = [
@@ -115,7 +127,7 @@ def ejecutar_carga(
 
     for nombre in orden_carga:
         if nombre in tablas:
-            cargar_tabla(tablas[nombre], nombre, engine, modo)
+            cargar_tabla(tablas[nombre], nombre, engine, schema, modo)
         else:
             print(f"[LOAD] ⚠️  Tabla '{nombre}' no encontrada en el dict de entrada")
 

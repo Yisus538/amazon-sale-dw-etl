@@ -23,7 +23,7 @@ source:
 # Base de datos destino
 # Las credenciales se leen desde .env — no ponerlas acá
 database:
-  schema: "public"
+  schema: "amazon_dw"
   tablas:
     dim_tiempo:    "dimTiempo"
     dim_producto:  "dimProducto"
