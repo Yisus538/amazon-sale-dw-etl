@@ -16,9 +16,10 @@ data/03_processed/*
 !data/02_interim/.gitkeep
 !data/03_processed/.gitkeep
 
-# Jupyter checkpoints
+# Jupyter checkpoints y datos generados por notebooks
 .ipynb_checkpoints/
 **/.ipynb_checkpoints/
+notebooks/data/
 
 # Python
 __pycache__/
