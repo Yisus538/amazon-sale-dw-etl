@@ -1,6 +1,6 @@
 # ─────────────────────────────────────────────
-# CONFIGURACIÓN DEL PROYECTO ETL — Amazon DW
-# Metodología HEFESTO
+# ! CONFIGURACIÓN DEL PROYECTO ETL — Amazon DW
+# ! Metodología HEFESTO
 # ─────────────────────────────────────────────
 
 project:
@@ -8,20 +8,20 @@ project:
   version: "1.0.0"
   metodologia: "HEFESTO v3"
 
-# Rutas de datos
+# ! Rutas de datos
 paths:
   raw:       "data/01_raw/"
   interim:   "data/02_interim/"
   processed: "data/03_processed/"
 
-# Archivo fuente
+# ! Archivo fuente
 source:
   filename: "Amazon_Sale_Report.csv"
   encoding: "utf-8"
   date_format: "%m-%d-%y"
 
-# Base de datos destino
-# Las credenciales se leen desde .env — no ponerlas acá
+# ! Base de datos destino
+# ! Las credenciales se leen desde .env — no ponerlas acá
 database:
   schema: "amazon_dw"
   tablas:
@@ -31,7 +31,7 @@ database:
     dim_canal:     "dimCanal"
     fact_ventas:   "factVentas"
 
-# Transformación — valores por defecto para nulos
+# ! Transformación — valores por defecto para nulos
 defaults:
   courier_status: "Desconocido"
   ciudad:         "No Informado"
@@ -42,6 +42,6 @@ defaults:
   amount:         0
   qty:            0
 
-# Estado de órdenes canceladas (para separar indicadores)
+# ! Estado de órdenes canceladas (para separar indicadores)
 estados_cancelados:
   - "Cancelled"
