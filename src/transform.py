@@ -1,5 +1,5 @@
 """
-transform.py — Módulo de Transformación
+! transform.py — Módulo de Transformación
 =========================================
 Responsabilidad: limpiar, normalizar y construir las tablas de dimensiones
 y la tabla de hechos siguiendo el Modelo Lógico del DW (Metodología HEFESTO).
@@ -19,7 +19,7 @@ def cargar_config(path_config: str = "config/settings.yaml") -> dict:
 
 
 # ──────────────────────────────────────────────────────
-# LIMPIEZA GENERAL
+# ! LIMPIEZA GENERAL
 # ──────────────────────────────────────────────────────
 
 def limpiar_dataframe(df: pd.DataFrame, config: dict) -> pd.DataFrame:
@@ -99,7 +99,7 @@ def limpiar_dataframe(df: pd.DataFrame, config: dict) -> pd.DataFrame:
 
 
 # ──────────────────────────────────────────────────────
-# CONSTRUCCIÓN DE DIMENSIONES
+# !CONSTRUCCIÓN DE DIMENSIONES
 # ──────────────────────────────────────────────────────
 
 def construir_dim_tiempo(df: pd.DataFrame) -> pd.DataFrame:
@@ -247,7 +247,7 @@ def construir_fact_ventas(
 
 
 # ──────────────────────────────────────────────────────
-# GUARDADO EN PROCESSED
+#! GUARDADO EN PROCESSED
 # ──────────────────────────────────────────────────────
 
 def guardar_tablas_procesadas(
